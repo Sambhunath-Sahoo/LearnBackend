@@ -1,21 +1,70 @@
-// server creation
+const express=require('express');
 
-// 1. http module
+const app=express();
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
-const http = require('http');
+// const router=express.Router();
+app.listen('5000',function(){
+    console.log('server listening on port 5000');
+});
 
-const server = http.createServer( (req, res) => {
-    console.log('request has been made from browser to server');
-    console.log(req.method);
-    console.log(req.url);
+app.use(express.json());
+// app.use((req,res,next)=>{
+//     //do some work
+//     console.log('i am a middleware');
+//     next();
+// });
 
-    res.setHeader('Content-Type', 'text/html');       // what type of data we are sending in response    
-    res.write('<h1>hello Sams!</h1>')                   
-    res.end();                                         // response end
-})
+app.use(express.static('public'));
+const userRouter=require('./Routers/userRouter');
+const authRouter=require('./Routers/authRouter');
+
+app.use('/user',userRouter);
+app.use('/auth',authRouter);
+//mounting in express
+
+//param route
+// app.get('/user/:id',getUserById);
 
 
-// port number, host, callback func
-server.listen(3000, 'localhost', () => {
-    console.log('server is listening');
-})
+// app.use((req,res,next)=>{
+//     //do some work
+//     console.log('i am a middleware 2nd time');
+//     next();
+// });
+
+
+
+
+
+//redirects
+// app.get('/user-all',(req,res)=>{
+//     res.redirect('/user');
+// });
+
+// //404 page
+// app.use((req,res)=>{
+//     res.sendFile('public/404.html',{root:__dirname})
+// });
+
+// let user=[];
+// client <- server
+//crud- create read update delete
+//read
+// app.get('/',(req,res)=>{
+//     res.send('Home Page');
+// });
+
+// app.get('/user',getUser);
+
+
+
+
+
+
+
+
+
+
+
